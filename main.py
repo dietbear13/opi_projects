@@ -28,6 +28,17 @@ def get_distance():
         start_time = time.time()
         if GPIO.input(ECHO_IN) == 1:
             stop_time = time.time()
+            print(f'start_time {start_time}')
+            # Расчет расстояния
+            elapsed_time = stop_time - start_time
+            print('start_time', start_time)
+            print('stop_time', stop_time)
+            distance = round(elapsed_time * 340, 2)
+            print('Distanse', distance)
+            
+            GPIO.output(TRIG_OUT, 1)
+            print(f"Расстояние: {distance:.2f} см")
+
             return start_time, stop_time
     # sleep(2)
     # while GPIO.input(ECHO_IN) == 1:
@@ -36,19 +47,12 @@ def get_distance():
     #     break
 
 
-    print(f'start_time {start_time}')
-    # Расчет расстояния
-    elapsed_time = stop_time - start_time
-    print('start_time', start_time)
-    print('stop_time', stop_time)
-    distance = round(elapsed_time * 340, 2)
-    print('Distanse', distance)
     return distance
 try:
     while True:
         distance = get_distance()
-        GPIO.output(TRIG_OUT, 1)
-        print(f"Расстояние: {distance:.2f} см")
+        # GPIO.output(TRIG_OUT, 1)
+        # print(f"Расстояние: {distance:.2f} см")
         time.sleep(1)
 except KeyboardInterrupt:
     print('Error')
